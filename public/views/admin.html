@@ -1,4 +1,181 @@
 <div class="container">
    <h4>Hi {{username}}</h4>
-	
+   
+	   <div class="row" >
+	   		<div class="col-md-2">
+	   			<button class="btn btn-primary" ng-click="create()">Schedule Meeting</button>
+	   		</div>
+	   		<div class="col-md-6">
+	   			
+	   		</div>
+	   		<div class="col-md-4">
+	   			<button class="btn btn-danger">Completed Meeting</button>
+	   			<button class="btn btn-success" ng-click="getMeetings()">Upcoming Meeting</button>
+	   		</div>
+	   </div>
+	<div ng-if="createmeet">
+	   <div class="row">
+	   		<div class="col-md-12">
+			    <!--<pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>-->
+			    <pre>Selected date is: <em>{{dt}}  {{mytime | date:'shortTime' }}</em></pre>
+			    <form ng-submit="scheduleMeeting(schedule)">
+			    <h4>Popup</h4>
+			    <div class="row">
+			        <div class="col-md-6">
+			            <p class="input-group">
+			            	<label>Mettin Name:</label><input type="text" class="form-control" ng-model="schedule.meetingName"/>
+			              <label>Date:</label><input type="date" class="form-control" datepicker-popup ng-model="dt" is-open="opened"  ng-required="true" close-text="Close" ng-model="schedule.date"/>
+			              <label>St Time:</label><timepicker ng-model="starttime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" ng-model="schedule.starttime"></timepicker>
+
+			              <label>En Time:</label><timepicker ng-model="endtime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" ng-model="schedule.endtime"></timepicker>
+			              <label>Participants:</label><input type="textarea"  row=40 col=50 class="form-control" ng-model="schedule.participants"/>
+			              <input type="submit"  value="create" class="btn btn-success" />
+			            </p>
+			        </div>
+			    </div>
+			    </form>
+			    <hr />
+	   		</div>	
+	   </div>
+	</div>
+
+  <div ng-if="upcomingmeeting">
+     <div class="row">
+        <div class="col-md-12">
+          <!--<pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>-->
+          <div class="gridStyle" ng-grid="gridOptions"></div>
+          <hr />
+        </div>  
+     </div>
+  </div>
+
 </div>
+<style type="text/css">
+  
+  /*style.css*/
+.gridStyle {
+    border: 2px solid rgb(212,212,212);
+    width: 100%; 
+    height: 700px;
+}
+</style>
+
+<!--ALERT
+angular.module('ui.bootstrap.demo').controller('AlertDemoCtrl', function ($scope) {
+  $scope.alerts = [
+    { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
+    { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
+  ];
+
+  $scope.addAlert = function() {
+    $scope.alerts.push({msg: 'Another alert!'});
+  };
+
+  $scope.closeAlert = function(index) {
+    $scope.alerts.splice(index, 1);
+  };
+});
+
+
+
+
+<div ng-controller="AlertDemoCtrl">
+  <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+  <button class='btn btn-default' ng-click="addAlert()">Add Alert</button>
+</div>
+
+
+ENABLE AND DROPDOWN
+
+<div ng-controller="DropdownCtrl">
+    
+    <span class="dropdown" dropdown on-toggle="toggled(open)">
+      <a href class="dropdown-toggle" dropdown-toggle>
+        Click me for a dropdown, yo!
+      </a>
+      <ul class="dropdown-menu">
+        <li ng-repeat="choice in items">
+          <a href>{{choice}}</a>
+        </li>
+      </ul>
+    </span>
+
+    
+    <div class="btn-group" dropdown is-open="status.isopen">
+      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+        Button dropdown <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">Action</a></li>
+        <li><a href="#">Another action</a></li>
+        <li><a href="#">Something else here</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Separated link</a></li>
+      </ul>
+    </div>
+
+    
+    <div class="btn-group" dropdown>
+      <button type="button" class="btn btn-danger">Action</button>
+      <button type="button" class="btn btn-danger dropdown-toggle" dropdown-toggle>
+        <span class="caret"></span>
+        <span class="sr-only">Split button!</span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">Action</a></li>
+        <li><a href="#">Another action</a></li>
+        <li><a href="#">Something else here</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Separated link</a></li>
+      </ul>
+    </div>
+
+    
+    <div class="btn-group" dropdown dropdown-append-to-body>
+      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+        Dropdown on Body <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">Action</a></li>
+        <li><a href="#">Another action</a></li>
+        <li><a href="#">Something else here</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Separated link</a></li>
+      </ul>
+    </div>
+
+    <hr />
+    <p>
+        <button type="button" class="btn btn-default btn-sm" ng-click="toggleDropdown($event)">Toggle button dropdown</button>
+        <button type="button" class="btn btn-warning btn-sm" ng-click="disabled = !disabled">Enable/Disable</button>
+    </p>
+
+</div>
+
+
+
+
+angular.module('ui.bootstrap.demo').controller('DropdownCtrl', function ($scope, $log) {
+  $scope.items = [
+    'The first choice!',
+    'And another choice for you.',
+    'but wait! A third!'
+  ];
+
+  $scope.status = {
+    isopen: false
+  };
+
+  $scope.toggled = function(open) {
+    $log.log('Dropdown is now: ', open);
+  };
+
+  $scope.toggleDropdown = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.status.isopen = !$scope.status.isopen;
+  };
+});
+
+-->
+

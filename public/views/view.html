@@ -1,5 +1,35 @@
 <div class="container">
    <h4>Hi {{username}}</h4>
-      
+   
+	   <div class="row" >
+	   		<div class="col-md-2">
+	   			
+	   		</div>
+	   		<div class="col-md-6">
+	   			
+	   		</div>
+	   		<div class="col-md-4">
+	   			<button class="btn btn-danger">Completed Meeting</button>
+	   			<button class="btn btn-success" ng-click="getMeetings()">Upcoming Meeting</button>
+	   		</div>
+	   </div>
+  <div ng-if="upcomingmeeting">
+     <div class="row">
+        <div class="col-md-12">
+          <!--<pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>-->
+          <div class="gridStyle" ng-grid="gridOptions"></div>
+          <hr />
+        </div>  
+     </div>
+  </div>
 
 </div>
+<style type="text/css">
+  
+  /*style.css*/
+.gridStyle {
+    border: 2px solid rgb(212,212,212);
+    width: 100%; 
+    height: 700px;
+}
+</style>

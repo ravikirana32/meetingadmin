@@ -4,7 +4,7 @@ var express = require('express'),
     errorhandler = require('errorhandler'),
     morgan = require('morgan'),
     fs = require("fs"),
-    EmployeeProvider = require('./fractAppDB').EmployeeProvider;
+    MeetingProvider = require('./meetingDB').MeetingProvider;
 
     var app = require('express')();
     var http = require('http').Server(app);
@@ -35,7 +35,7 @@ io.on('connection', function(socket){
   });*/
 });
 
-var fractAppDB= new EmployeeProvider('localhost', 27017);
+var fractAppDB= new MeetingProvider('localhost', 27017);
 
 /*app.get('/employee/new', function(req, res) {
     res.render('employee_new', {
@@ -44,10 +44,9 @@ var fractAppDB= new EmployeeProvider('localhost', 27017);
 });*/
 
 app.get('/login', function(req, res){
-  fractAppDB.findAll(function(error, users){
+  fractAppDB.findAll(function(error, meetinglists){
       res.status(200).json({
-        title : 'users',
-        users : users,
+        meetinglists : meetinglists,
     });
   });
 });
@@ -55,12 +54,35 @@ app.get('/login', function(req, res){
 app.post('/signup', function(req, res){
     
     fractAppDB.save({
+        Title:"User",
         username: req.param('username'),
         password: req.param('password'),
         email:req.param('email')
     }, function( error, docs) {
         res.status(200).json();
     });
+});
+
+app.post('/createmeeting', function(req, res){
+    
+    fractAppDB.save({
+        Title:"meeting",
+        MeetingName: req.param('meetingName'),
+        StartTime: req.param('starttime'),
+        EndTime:req.param('endtime'),
+        date:req.param('date'),
+        Participants:req.param('participants')
+    }, function( error, docs) {
+        res.status(200).json();
+    });
+});
+
+app.get('/getMeeting', function(req, res){
+  fractAppDB.findAll(function(error, meetinglists){
+      res.status(200).json({
+        meetinglists : meetinglists,
+    });
+  });
 });
 
 http.listen(3000, function(){
